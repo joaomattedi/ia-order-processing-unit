@@ -30,12 +30,12 @@ public class AIParserService {
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
 
     public PedidoDTO parsear(String texto) {
-        String prompt = buildPrompt(texto);
-        String responseText = callGemini(prompt);
-        return parseResponse(responseText);
+        String prompt = montarPrompt(texto);
+        String respostaTexto = chamarGemini(prompt);
+        return processarResposta(respostaTexto);
     }
 
-    private String buildPrompt(String texto) {
+    private String montarPrompt(String texto) {
         return String.format("""
                 Extraia as informações do pedido abaixo e retorne SOMENTE um JSON válido, sem markdown, sem explicações.
                 Formato esperado:
@@ -49,7 +49,7 @@ public class AIParserService {
                 """, LocalDate.now(), texto);
     }
 
-    private String callGemini(String prompt) {
+    private String chamarGemini(String prompt) {
         try {
             String body = objectMapper.writeValueAsString(
                 Map.of("contents", List.of(
@@ -74,7 +74,7 @@ public class AIParserService {
         }
     }
 
-    private PedidoDTO parseResponse(String jsonText) {
+    private PedidoDTO processarResposta(String jsonText) {
         try {
             String clean = jsonText.replaceAll("```json\\s*", "").replaceAll("```\\s*", "").trim();
             JsonNode node = objectMapper.readTree(clean);
