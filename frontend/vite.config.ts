@@ -7,13 +7,9 @@ export default defineConfig({
     port: 5173,
     host: true,
     proxy: {
-      '/pedido': {
-        target: process.env.BACKEND_URL || 'http://localhost:8080',
-        changeOrigin: true,
-      },
-      '/pedidos': {
-        target: process.env.BACKEND_URL || 'http://localhost:8080',
-        changeOrigin: true,
+      '/api': {                                                                                                                                                                                                                                   
+        target: process.env.BACKEND_URL || 'http://localhost:8080',                                                                                                                                                                               
+        changeOrigin: true,                                                                                                                                                                                                                       
       },
     },
   },
