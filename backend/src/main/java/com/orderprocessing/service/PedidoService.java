@@ -52,7 +52,7 @@ public class PedidoService {
     @Transactional(readOnly = true)
     public PedidoResponseDTO buscarPorId(Long id) {
         Pedido pedido = pedidoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Pedido not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado com id: " + id));
         return toResponseDTO(pedido);
     }
 
